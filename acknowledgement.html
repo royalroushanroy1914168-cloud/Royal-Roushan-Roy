@@ -1,2 +1,157 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Acknowledgement | NagarDrishti</title><link rel="stylesheet" href="css/style.css"></head>
-<body><header><a class="logo" href="index.html">Nagar<span>Drishti</span></a></header><div class="slip-page"><div id="slip" class="slip"><h1>NagarDrishti</h1><h2>Acknowledgement Slip</h2><div class="tracking" id="tracking"></div><div id="details"></div><p class="success">✓ Complaint registered successfully</p><p>Save your Tracking ID to check complaint status.</p><div class="actions"><button class="btn" onclick="window.print()">Print Slip</button><a class="btn secondary" href="track.html">Track Complaint</a></div></div></div><script>const d=JSON.parse(localStorage.getItem('lastComplaint')||'null'); if(!d){document.getElementById('details').innerHTML='<p>No complaint data found.</p>'}else{document.getElementById('tracking').textContent=d.tracking_id;document.getElementById('details').innerHTML=`<div class="details"><p><b>Complaint ID:</b> #${d.report_id}</p><p><b>Problem Type:</b> ${d.problem_type||'-'}</p><p><b>Status:</b> ${d.status}</p><p><b>Priority Score:</b> ${d.priority_score}</p><p><b>Date:</b> ${new Date().toLocaleString()}</p></div>`}</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Acknowledgement Slip | NagarDrishti</title>
+
+<link
+    rel="stylesheet"
+    href="css/style.css"
+>
+
+</head>
+
+
+<body>
+
+<header>
+
+<a href="index.html" class="logo">
+    Nagar<span>Drishti</span>
+</a>
+
+</header>
+
+
+<div class="slip-page">
+
+<div class="slip">
+
+<h1>
+    NagarDrishti
+</h1>
+
+<h2>
+    ACKNOWLEDGEMENT SLIP
+</h2>
+
+
+<p>
+    Complaint successfully registered
+</p>
+
+
+<div class="tracking-label">
+    TRACKING ID
+</div>
+
+
+<div
+    id="tracking"
+    class="tracking"
+>
+</div>
+
+
+<div id="details" class="details">
+</div>
+
+
+<div class="success">
+    ✓ Complaint Registered Successfully
+</div>
+
+
+<p>
+    Please save your Tracking ID.
+    You can use it to track your complaint.
+</p>
+
+
+<div class="actions">
+
+<button
+    class="btn"
+    onclick="window.print()"
+>
+    Print Slip
+</button>
+
+
+<a
+    href="track.html"
+    class="btn secondary"
+>
+    Track Complaint
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const data =
+    JSON.parse(
+        localStorage.getItem("lastComplaint") || "null"
+    );
+
+
+if (!data) {
+
+    document.getElementById("details").innerHTML =
+        "<p>No complaint information found.</p>";
+
+}
+else {
+
+    document.getElementById("tracking").textContent =
+        data.tracking_id;
+
+
+    document.getElementById("details").innerHTML = `
+
+        <p>
+            <b>Complaint ID:</b>
+            #${data.report_id}
+        </p>
+
+        <p>
+            <b>Problem Type:</b>
+            ${data.problem_type || "-"}
+        </p>
+
+        <p>
+            <b>Status:</b>
+            ${data.status}
+        </p>
+
+        <p>
+            <b>Priority Score:</b>
+            ${data.priority_score}
+        </p>
+
+        <p>
+            <b>Date:</b>
+            ${new Date().toLocaleString()}
+        </p>
+
+    `;
+
+}
+
+</script>
+
+</body>
+</html>
