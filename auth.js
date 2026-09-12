@@ -1,6 +1,6 @@
 const API =
     localStorage.getItem("API_URL") ||
-    "http://localhost:5000/api";
+    "https://royal-roushan-roy.onrender.com";
 
 
 function showMessage(message) {
