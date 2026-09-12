@@ -1,4 +1,387 @@
-const API=localStorage.getItem("API_URL")||"http://localhost:5000/api";const token=localStorage.getItem("departmentToken");if(!token)location.href="department-login.html";
-async function load(){const r=await fetch(API+"/department/reports",{headers:{Authorization:"Bearer "+token}});if(r.status===401){localStorage.removeItem("departmentToken");location.href="department-login.html";return}const data=await r.json();const stats=document.getElementById("stats");const counts={Pending:0,Assigned:0,"In Progress":0,Resolved:0};data.forEach(x=>counts[x.status]=(counts[x.status]||0)+1);stats.innerHTML=Object.entries(counts).map(([k,v])=>`<div class="stat"><b>${k}</b><br>${v}</div>`).join("");document.getElementById("reports").innerHTML=data.map(x=>`<tr><td>${x.tracking_id}</td><td>${x.citizen_name}</td><td>${x.problem_type}</td><td>${x.location||"-"}</td><td class="priority-high">${x.priority_score}</td><td><select class="status-select" data-id="${x.id}">${["Pending","Assigned","In Progress","Resolved"].map(s=>`<option ${s===x.status?"selected":""}>${s}</option>`).join("")}</select></td><td><button class="btn" onclick="updateReport(${x.id})">Update</button></td></tr>`).join("")}
-async function updateReport(id){const s=document.querySelector(`select[data-id="${id}"]`).value;const r=await fetch(API+"/department/reports/"+id,{method:"PATCH",headers:{"Content-Type":"application/json",Authorization:"Bearer "+token},body:JSON.stringify({status:s,assigned_department:"Civic Department"})});const d=await r.json();alert(d.message||d.error);if(r.ok)load()}
-document.getElementById("logout").onclick=()=>{localStorage.removeItem("departmentToken");location.href="department-login.html"};load();
+const API =
+    localStorage.getItem("API_URL") ||
+    "http://localhost:5000/api";
+
+
+const departmentToken =
+    localStorage.getItem(
+        "departmentToken"
+    );
+
+
+/*
+   Protect dashboard
+*/
+
+if (!departmentToken) {
+
+    window.location.href =
+        "department-login.html";
+
+}
+
+
+/* =========================
+   LOAD COMPLAINTS
+========================= */
+
+async function loadReports() {
+
+    try {
+
+        const response =
+            await fetch(
+                API + "/department/reports",
+                {
+
+                    headers: {
+
+                        Authorization:
+                            "Bearer " +
+                            departmentToken
+
+                    }
+
+                }
+            );
+
+
+        /*
+           Unauthorized
+        */
+
+        if (response.status === 401) {
+
+            localStorage.removeItem(
+                "departmentToken"
+            );
+
+            window.location.href =
+                "department-login.html";
+
+            return;
+
+        }
+
+
+        const reports =
+            await response.json();
+
+
+        /*
+           Count statuses
+        */
+
+        const counts = {
+
+            Pending: 0,
+
+            Assigned: 0,
+
+            "In Progress": 0,
+
+            Resolved: 0
+
+        };
+
+
+        reports.forEach(
+            report => {
+
+                if (
+                    counts[
+                        report.status
+                    ] !== undefined
+                ) {
+
+                    counts[
+                        report.status
+                    ]++;
+
+                }
+
+            }
+        );
+
+
+        /*
+           Statistics
+        */
+
+        document.getElementById(
+            "stats"
+        ).innerHTML =
+
+            Object.entries(
+                counts
+            )
+
+            .map(
+
+                ([status, count]) => `
+
+                    <div class="stat">
+
+                        <b>
+                            ${status}
+                        </b>
+
+                        <br>
+
+                        ${count}
+
+                    </div>
+
+                `
+
+            )
+
+            .join("");
+
+
+        /*
+           Complaint table
+        */
+
+        document.getElementById(
+            "reports"
+        ).innerHTML =
+
+            reports
+
+            .map(
+
+                report => `
+
+                    <tr>
+
+                        <td>
+                            ${report.tracking_id}
+                        </td>
+
+                        <td>
+                            ${report.citizen_name}
+                        </td>
+
+                        <td>
+                            ${report.problem_type}
+                        </td>
+
+                        <td>
+                            ${report.location || "-"}
+                        </td>
+
+                        <td class="priority-high">
+                            ${report.priority_score}
+                        </td>
+
+                        <td>
+
+                            <select
+                                class="status-select"
+                                data-id="${report.id}"
+                            >
+
+                                <option
+                                    ${
+                                        report.status ===
+                                        "Pending"
+                                        ? "selected"
+                                        : ""
+                                    }
+                                >
+                                    Pending
+                                </option>
+
+                                <option
+                                    ${
+                                        report.status ===
+                                        "Assigned"
+                                        ? "selected"
+                                        : ""
+                                    }
+                                >
+                                    Assigned
+                                </option>
+
+                                <option
+                                    ${
+                                        report.status ===
+                                        "In Progress"
+                                        ? "selected"
+                                        : ""
+                                    }
+                                >
+                                    In Progress
+                                </option>
+
+                                <option
+                                    ${
+                                        report.status ===
+                                        "Resolved"
+                                        ? "selected"
+                                        : ""
+                                    }
+                                >
+                                    Resolved
+                                </option>
+
+                            </select>
+
+                        </td>
+
+                        <td>
+
+                            <button
+                                class="btn"
+                                onclick="
+                                    updateReport(
+                                        ${report.id}
+                                    )
+                                "
+                            >
+                                Update
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                `
+
+            )
+
+            .join("");
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+
+/* =========================
+   UPDATE COMPLAINT
+========================= */
+
+async function updateReport(
+    reportId
+) {
+
+    const select =
+        document.querySelector(
+            `select[data-id="${reportId}"]`
+        );
+
+
+    const status =
+        select.value;
+
+
+    try {
+
+        const response =
+            await fetch(
+
+                API +
+                "/department/reports/" +
+                reportId,
+
+                {
+
+                    method: "PATCH",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        Authorization:
+                            "Bearer " +
+                            departmentToken
+
+                    },
+
+                    body: JSON.stringify({
+
+                        status:
+
+                            status,
+
+                        assigned_department:
+                            "Civic Department"
+
+                    })
+
+                }
+
+            );
+
+
+        const data =
+            await response.json();
+
+
+        alert(
+            data.message ||
+            data.error
+        );
+
+
+        if (response.ok) {
+
+            loadReports();
+
+        }
+
+    }
+
+    catch (error) {
+
+        alert(
+            "Unable to update complaint."
+        );
+
+    }
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+const logout =
+    document.getElementById(
+        "logout"
+    );
+
+
+if (logout) {
+
+    logout.addEventListener(
+        "click",
+        function () {
+
+            localStorage.removeItem(
+                "departmentToken"
+            );
+
+            window.location.href =
+                "department-login.html";
+
+        }
+    );
+
+}
+
+
+/*
+   Initial load
+*/
+
+loadReports();
