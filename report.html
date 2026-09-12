@@ -1,9 +1,207 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Report Problem | NagarDrishti</title><link rel="stylesheet" href="css/style.css"></head>
-<body><header><a class="logo" href="index.html">Nagar<span>Drishti</span></a><nav><a href="track.html">Track</a><a href="login.html">Login</a></nav></header>
-<div class="form-page"><form id="reportForm" class="form-card wide" enctype="multipart/form-data"><h2>Report a Civic Problem</h2><p>Provide accurate information so the department can act quickly.</p>
-<label>Problem Type</label><select id="problem_type" required><option value="">Select problem</option><option>Pothole</option><option>Garbage</option><option>Broken Streetlight</option><option>Damaged Road</option><option>Blocked Drain</option><option>Water Leakage</option><option>Damaged Footpath</option><option>Road Accident Hazard</option><option>Other</option></select>
-<label>Description</label><textarea id="description" rows="5" placeholder="Describe the problem..." required></textarea>
-<label>Location / Address</label><input id="location" placeholder="Enter location/address"><div class="location-row"><input id="latitude" placeholder="Latitude" readonly><input id="longitude" placeholder="Longitude" readonly><button type="button" id="locate" class="btn secondary">Use Current Location</button></div>
-<label>Contact (optional)</label><input id="contact" placeholder="Phone number or other contact">
-<label>Photograph</label><input id="image" type="file" accept="image/*">
-<button class="btn">Submit Complaint</button><div id="message"></div></form></div><script src="js/report.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Report Problem | NagarDrishti</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <a href="index.html" class="logo">
+        Nagar<span>Drishti</span>
+    </a>
+
+    <nav>
+
+        <a href="track.html">
+            Track
+        </a>
+
+        <a href="login.html">
+            Login
+        </a>
+
+    </nav>
+
+</header>
+
+
+<div class="form-page">
+
+<form
+    id="reportForm"
+    class="form-card wide"
+    enctype="multipart/form-data"
+>
+
+    <h2>Report a Civic Problem</h2>
+
+    <p>
+        Provide accurate information so the department
+        can act quickly.
+    </p>
+
+
+    <!-- Problem Type -->
+
+    <label>Problem Type</label>
+
+    <select id="problem_type" required>
+
+        <option value="">
+            Select Problem
+        </option>
+
+        <option value="Pothole">
+            Pothole
+        </option>
+
+        <option value="Garbage">
+            Garbage
+        </option>
+
+        <option value="Broken Streetlight">
+            Broken Streetlight
+        </option>
+
+        <option value="Damaged Road">
+            Damaged Road
+        </option>
+
+        <option value="Blocked Drain">
+            Blocked Drain
+        </option>
+
+        <option value="Water Leakage">
+            Water Leakage
+        </option>
+
+        <option value="Damaged Footpath">
+            Damaged Footpath
+        </option>
+
+        <option value="Road Accident Hazard">
+            Road Accident Hazard
+        </option>
+
+        <option value="Other">
+            Other
+        </option>
+
+    </select>
+
+
+    <!-- Description -->
+
+    <label>
+        Problem Description
+    </label>
+
+    <textarea
+        id="description"
+        rows="5"
+        placeholder="Describe the problem..."
+        required
+    ></textarea>
+
+
+    <!-- Location -->
+
+    <label>
+        Location / Address
+    </label>
+
+    <input
+        type="text"
+        id="location"
+        placeholder="Enter location/address"
+    >
+
+
+    <div class="location-row">
+
+        <input
+            type="text"
+            id="latitude"
+            placeholder="Latitude"
+            readonly
+        >
+
+        <input
+            type="text"
+            id="longitude"
+            placeholder="Longitude"
+            readonly
+        >
+
+        <button
+            type="button"
+            id="locate"
+            class="btn secondary"
+        >
+            Use Current Location
+        </button>
+
+    </div>
+
+
+    <!-- Contact -->
+
+    <label>
+        Contact
+    </label>
+
+    <input
+        type="text"
+        id="contact"
+        placeholder="Phone number"
+    >
+
+
+    <!-- Image -->
+
+    <label>
+        Photograph
+    </label>
+
+    <input
+        type="file"
+        id="image"
+        accept="image/*"
+    >
+
+
+    <!-- Submit -->
+
+    <button
+        class="btn"
+        type="submit"
+    >
+        Submit Complaint
+    </button>
+
+
+    <div id="message"></div>
+
+</form>
+
+</div>
+
+
+<script src="js/report.js"></script>
+
+</body>
+</html>
